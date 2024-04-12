@@ -1,0 +1,59 @@
+from tkinter import*
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+##Hardware##
+ledGreen = LED(17)
+ledBlue = LED(22)
+ledRed = LED(27)
+
+##GUI DEFINITIONS##
+win = Tk()
+win.title("LED Toggler")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 14, weight = "bold")
+
+##EVENT fUNCTION##
+def ledGreenToggle():
+    if ledGreen.is_lit:
+       ledGreen.off()
+       ledGreenButton["text"] = "Turn Green LED on"
+    else:
+       ledGreen.on()
+       ledGreenButton["text"] = "Turn Green LED off"
+
+def ledBlueToggle():
+    if ledBlue.is_lit:
+       ledBlue.off()
+       ledBlueButton["text"] = "Turn Blue LED on"
+    else:
+       ledBlue.on()
+       ledBlueButton["text"] = "Turn Blue LED off"
+
+def ledRedToggle():
+    if ledRed.is_lit:
+       ledRed.off()
+       ledRedButton["text"] = "Turn Red LED on"
+    else:
+       ledRed.on()
+       ledRedButton["text"] = "Turn Red LED off"
+
+def exitToggle():
+    RPi.GPIO.cleanup()
+    win.destroy()
+
+
+##WIDGETS##
+ledGreenButton = Button(win,text='Turn Green LED on',font=myFont, command = ledGreenToggle, bg = 'bisque2', height = 2, width = 26)
+ledGreenButton.grid(row=0,column=1)
+ledBlueButton = Button(win, text='Turn Blue LED on', font=myFont,command = ledBlueToggle, bg = 'bisque2', height = 2, width = 26)
+ledBlueButton.grid(row=1,column=1)
+ledRedButton = Button(win,text='Turn Red LED on',font=myFont,command = ledRedToggle, bg = 'bisque2',height = 2, width = 26)
+ledRedButton.grid(row=2,column=1)
+
+##EXIT BUTTON##
+exitButton= Button(win,text='EXIT',font=myFont,command=exitToggle,bg = 'bisque2', height = 2, width = 26)
+exitButton.grid(row=3,column=1)
+
+win.mainloop()
